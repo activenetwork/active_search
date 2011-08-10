@@ -14,9 +14,11 @@ module ActiveSearch
     
     # actually do the search against the API
     def search(args, throw_errors=false)
+      raise ActiveSearch::ApiKeyRequired, "You must specify an API key: ActiveSearch.options[:api_key] = 'your_key_here'" unless ActiveSearch.options[:api_key]
+      
       options = DEFAULT_OPTIONS.merge(extract_options(args))
       search_url = build_search_url(options)
-      puts search_url
+      # puts search_url
       begin
         response = HTTParty.get(search_url)
         if response.code == 200

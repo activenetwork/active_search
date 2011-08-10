@@ -7,10 +7,11 @@ module ActiveSearch
   
   # error classes
   class SearchError < StandardError; end
+  class ApiKeyRequired < StandardError; end
   
   attr_accessor :options
   
-  @options = {  :url => nil, 
+  @options = {  :url => 'http://api.amp.active.com/search', 
                 :api_key => nil }
   
   # make @options available so it can be set externally when using the library
