@@ -1,0 +1,9 @@
+# Copy this file to options.yml and put your real API key here to use in your tests
+# It will be available as API_KEY in your tests. The most common use will be to add
+# a `setup` block to your test to initialize the options for ActiveSearch:
+#
+#  def setup
+#    ActiveSearch.options[:api_key] = API_KEY
+#  end
+
+api_key: 12345abcde

@@ -8,6 +8,7 @@ module ActiveSearch
     DEFAULT_OPTIONS = { :keywords => nil, :type => 'activities', :format => 'json', :location => nil, :radius => nil, :sort => 'relevance', :meta => nil, :num => nil, :page => nil }
     SEARCH_PARAMS_MAP = { :keywords => 'k', :type => 'f', :format => 'v', :location => 'l', :radius => 'r', :sort => 's', :meta => 'm', :num => 'num', :page => 'page' }
     
+    # new finder
     def initialize
     end
     
