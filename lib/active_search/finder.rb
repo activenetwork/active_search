@@ -19,7 +19,7 @@ module ActiveSearch
       
       options = DEFAULT_OPTIONS.merge(extract_options(args))
       search_url = build_search_url(options)
-      # puts search_url
+      puts search_url
       begin
         response = HTTParty.get(search_url)
         if response.code == 200
@@ -50,7 +50,17 @@ module ActiveSearch
       options.each do |key,value|
         params.merge! SEARCH_PARAMS_MAP[key] => value unless value.nil?
       end
-      return url + '?' + params.collect { |k,v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&')
+      full_url = url + '?'
+      full_url += params.collect do |k,v| 
+        case k
+        when 'm'   # meta parameters are nested hashes
+          "m=" + v.collect { |j,w| CGI.escape("#{j}#{w.to_s}") }.join('+')
+        else
+          "#{k}=#{CGI.escape(v.to_s)}"
+        end
+      end.join('&')
+      
+      return full_url
     end
     
     
@@ -60,15 +70,30 @@ module ActiveSearch
     
     
     def extract_options(args=[])
+      options = {}
       if args.first.is_a? Hash
-        return args.first
+        options = args.first
       else
         if args.last.is_a? Hash
-          return args.last.merge(:keywords => args.first)
+          options = args.last.merge(:keywords => args.first)
         else
-          return { :keywords => args.first }
+          options = { :keywords => args.first }
         end
       end
+
+      if options[:date_range]
+        options[:meta] ||= {}
+        options[:meta].merge! :'meta:startDate:daterange:' => "#{options[:date_range].first.to_date.strftime('%F')}..#{options[:date_range].last.to_date.strftime('%F')}"
+        options.delete :date_range
+      end
+      
+      if options[:media_type]
+        options[:meta] ||= {}
+        options[:meta].merge! :'meta:splitMediaType=' => options[:media_type]
+        options.delete :media_type
+      end
+      
+      return options
     end
     
   end
