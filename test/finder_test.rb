@@ -18,6 +18,16 @@ class FinderTest < Test::Unit::TestCase
     assert_equal( {:meta => { :'meta:startDate:daterange:' => "#{@start_date.strftime('%F')}..#{@end_date.strftime('%F')}" }}, 
                   @finder.extract_options([ {:date_range => @start_date..@end_date} ]))
                   
+    # date_range, start date only
+    assert_equal( {:meta => { :'meta:startDate:daterange:' => "#{@start_date.strftime('%F')}.." }}, 
+                  @finder.extract_options([ {:date_range => @start_date} ]))
+                  
+    start_time = Time.now
+    
+    # date_range, start time only
+    assert_equal( {:meta => { :'meta:startDate:daterange:' => "#{start_time.strftime('%F')}.." }}, 
+                  @finder.extract_options([ {:date_range => start_time} ]))
+                  
     # media_types
     assert_equal( {:meta => { :'meta:splitMediaType=' => 'Event' }}, 
                   @finder.extract_options([ {:media_type => 'Event'} ]))
@@ -33,6 +43,16 @@ class FinderTest < Test::Unit::TestCase
     # date_ranges
     assert_equal  url_helper(:m => "meta:startDate:daterange:#{@start_date.strftime('%F')}..#{@end_date.strftime('%F')}"),
                   @finder.build_search_url(:meta => { :'meta:startDate:daterange:' => "#{@start_date.strftime('%F')}..#{@end_date.strftime('%F')}" })
+    
+    # date_ranges, start date only
+    assert_equal  url_helper(:m => "meta:startDate:daterange:#{@start_date.strftime('%F')}.."),
+                  @finder.build_search_url(:meta => { :'meta:startDate:daterange:' => "#{@start_date.strftime('%F')}.." })
+
+    start_time = Time.now
+    
+    # date_ranges, start date only
+    assert_equal  url_helper(:m => "meta:startDate:daterange:#{start_time.strftime('%F')}.."),
+                  @finder.build_search_url(:meta => { :'meta:startDate:daterange:' => "#{start_time.strftime('%F')}.." })
     
     # media_type
     assert_equal  url_helper(:m => "meta:splitMediaType=Event"),

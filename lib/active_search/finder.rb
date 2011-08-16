@@ -83,7 +83,12 @@ module ActiveSearch
 
       if options[:date_range]
         options[:meta] ||= {}
-        options[:meta].merge! :'meta:startDate:daterange:' => "#{options[:date_range].first.to_date.strftime('%F')}..#{options[:date_range].last.to_date.strftime('%F')}"
+        case options[:date_range]
+        when Range
+          options[:meta].merge! :'meta:startDate:daterange:' => "#{options[:date_range].first.to_date.strftime('%F')}..#{options[:date_range].last.to_date.strftime('%F')}"
+        when Date, Time, DateTime   # assume an open-ended range and only the start date was supplied
+          options[:meta].merge! :'meta:startDate:daterange:' => "#{options[:date_range].to_date.strftime('%F')}.."
+        end
         options.delete :date_range
       end
       
