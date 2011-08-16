@@ -60,7 +60,7 @@ module ActiveSearch
     
     # some replacements specific to the title of an event
     def scrub_title(text)
-      return @ic.iconv(text.is_a?(Array) ? text.first : text).split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'")
+      return @ic.iconv(text.is_a?(Array) ? text.first : text).split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'").gsub(/\?/,'')
     end
     private :scrub_title
     

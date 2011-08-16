@@ -50,21 +50,18 @@ class ActiveSearchTest < Test::Unit::TestCase
   
   def test_can_search_with_date_range
     results = ActiveSearch.find :date_range => @from_date..@to_date
-    
     assert (results.first.start_date >= @from_date and results.first.start_date <= @to_date)
   end
   
   
   def test_can_search_with_media_type
     results = ActiveSearch.find :media_type => @media_type
-    
     assert results.any?
   end
   
   
   def test_can_search_with_multiple_meta_values
     results = ActiveSearch.find :date_range => @from_date..@to_date, :media_type => @media_type
-    
     assert results.any?
   end
   
