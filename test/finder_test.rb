@@ -31,6 +31,10 @@ class FinderTest < Test::Unit::TestCase
     # media_types
     assert_equal( {:meta => { :'meta:splitMediaType=' => 'Event' }}, 
                   @finder.extract_options([ {:media_type => 'Event'} ]))
+                  
+    # channel
+    assert_equal( {:meta => { :'meta:channel=' => 'Running' }}, 
+                  @finder.extract_options([ {:channel => 'Running'} ]))
   end
   
   
@@ -57,6 +61,10 @@ class FinderTest < Test::Unit::TestCase
     # media_type
     assert_equal  url_helper(:m => "meta:splitMediaType=Event"),
                   @finder.build_search_url(:meta => { :'meta:splitMediaType=' => 'Event' })
+    
+    # channel
+    assert_equal  url_helper(:m => "meta:channel=Running"),
+                  @finder.build_search_url(:meta => { :'meta:channel=' => 'Running' })
     
   end
   

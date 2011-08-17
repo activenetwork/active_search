@@ -72,6 +72,21 @@ class ActiveSearchTest < Test::Unit::TestCase
   end
   
   
+  def test_can_search_with_media_type
+    results = ActiveSearch.find :media_type => 'Class'
+    assert results.first.media_types.include? 'Class'
+  end
+  
+  
+  def test_can_search_with_channel
+    results = ActiveSearch.find :channel => 'Running'
+    assert results.first.channels.include? 'Running'
+    
+    results = ActiveSearch.find 'swim', :channel => 'Running'
+    assert results.first.channels.include? 'Running'
+  end
+  
+  
   def test_error_hidden_without_bang_find
     assert_nothing_raised ActiveSearch::SearchError do
       ActiveSearch.find :location => 'San Diego, CA'

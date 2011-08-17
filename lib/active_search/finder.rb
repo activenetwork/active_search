@@ -98,6 +98,12 @@ module ActiveSearch
         options.delete :media_type
       end
       
+      if options[:channel]
+        options[:meta] ||= {}
+        options[:meta].merge! :'meta:channel=' => options[:channel]
+        options.delete :channel
+      end
+      
       return options
     end
     

@@ -3,20 +3,21 @@ module ActiveSearch
     
     attr_reader :raw, :data
     
-    DEFAULTS = {  :url        => nil, 
-                  :title      => nil, 
-                  :address    => nil,
-                  :city       => nil, 
-                  :state      => nil, 
-                  :zip        => nil,
-                  :country    => nil,
-                  :latitude   => nil,
-                  :longitude  => nil,
-                  :summary    => nil, 
-                  :start_date => nil,
-                  :end_date   => nil,
-                  :asset_id   => nil,
-                  :channels   => nil }
+    DEFAULTS = {  :url          => nil, 
+                  :title        => nil, 
+                  :address      => nil,
+                  :city         => nil, 
+                  :state        => nil, 
+                  :zip          => nil,
+                  :country      => nil,
+                  :latitude     => nil,
+                  :longitude    => nil,
+                  :summary      => nil, 
+                  :start_date   => nil,
+                  :end_date     => nil,
+                  :asset_id     => nil,
+                  :channels     => nil,
+                  :media_types  => nil }
     
     def initialize(data)
       @raw = data
@@ -26,19 +27,20 @@ module ActiveSearch
                               :title   => scrub_title(@raw['title']))
                       
       if @raw['meta']
-        @data.merge!( :address    => @raw['meta']['address'],
-                      :city       => @raw['meta']['city'],
-                      :state      => @raw['meta']['state'],
-                      :zip        => @raw['meta']['zip'],
-                      :country    => @raw['meta']['country'],
-                      :latitude   => @raw['meta']['latitude'].to_f,
-                      :longitude  => @raw['meta']['longitude'].to_f,
-                      :summary    => scrub_summary(@raw['meta']['summary']),
-                      :start_date => scrub_date(@raw['meta']['startDate']),
-                      :end_date   => scrub_date(@raw['meta']['endDate']),
-                      :asset_id   => scrub_asset_id(@raw['meta']['assetId']),
-                      :title      => scrub_title(@raw['meta']['assetName']),
-                      :channels   => [@raw['meta']['channel']].flatten)       # if the asset has an actual assetName, use that as the :title
+        @data.merge!( :address      => @raw['meta']['address'],
+                      :city         => @raw['meta']['city'],
+                      :state        => @raw['meta']['state'],
+                      :zip          => @raw['meta']['zip'],
+                      :country      => @raw['meta']['country'],
+                      :latitude     => @raw['meta']['latitude'].to_f,
+                      :longitude    => @raw['meta']['longitude'].to_f,
+                      :summary      => scrub_summary(@raw['meta']['summary']),
+                      :start_date   => scrub_date(@raw['meta']['startDate']),
+                      :end_date     => scrub_date(@raw['meta']['endDate']),
+                      :asset_id     => scrub_asset_id(@raw['meta']['assetId']),
+                      :title        => scrub_title(@raw['meta']['assetName']),      # if the asset has an actual assetName, use that as the :title
+                      :channels     => [@raw['meta']['channel']].flatten,
+                      :media_types  => [@raw['meta']['splitMediaType']].flatten)
       end
       
     end
