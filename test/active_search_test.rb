@@ -114,10 +114,24 @@ class ActiveSearchTest < Test::Unit::TestCase
   end
   
   
+  def test_result_with_byline_returns_byline
+    results = ActiveSearch.find :type => 'articles'
+    result_with_byline = results.find { |r| r.byline }
+    assert result_with_byline
+  end
+  
+  
   def test_result_without_image_returns_nil
     results = ActiveSearch.find
     result_with_image = results.find { |r| r.image }
     assert_nil result_with_image
+  end
+  
+  
+  def test_result_without_byline_returns_nil
+    results = ActiveSearch.find
+    result_with_byline = results.find { |r| r.byline }
+    assert_nil result_with_byline
   end
   
 end

@@ -18,7 +18,8 @@ module ActiveSearch
                   :asset_id     => nil,
                   :channels     => nil,
                   :media_types  => nil,
-                  :image        => nil }
+                  :image        => nil,
+                  :byline       => nil }
     
     def initialize(data)
       @raw = data
@@ -42,7 +43,8 @@ module ActiveSearch
                       :title        => scrub_title(@raw['meta']['assetName']),      # if the asset has an actual assetName, use that as the :title
                       :channels     => [@raw['meta']['channel']].flatten,
                       :media_types  => [@raw['meta']['splitMediaType']].flatten,
-                      :image        => @raw['meta']['image2'])
+                      :image        => @raw['meta']['image2'],
+                      :byline       => @raw['meta']['byline'])
       end
       
     end
