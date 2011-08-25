@@ -6,7 +6,7 @@ module ActiveSearch
   class Finder
     
     DEFAULT_OPTIONS = { :keywords => nil, :type => 'activities', :format => 'json', :location => nil, :radius => nil, :sort => 'relevance', :meta => nil, :num => nil, :page => nil }
-    SEARCH_PARAMS_MAP = { :keywords => 'k', :type => 'f', :format => 'v', :location => 'l', :radius => 'r', :sort => 's', :meta => 'm', :num => 'num', :page => 'page' }
+    SEARCH_PARAMS_MAP = { :keywords => 'k', :type => 'f', :format => 'v', :location => 'l', :radius => 'r', :sort => 's', :meta => 'm', :num => 'num', :page => 'page', :asset_id => 'assetId' }
     
     # new finder
     def initialize
@@ -102,6 +102,12 @@ module ActiveSearch
         options[:meta] ||= {}
         options[:meta].merge! :'meta:channel=' => options[:channel]
         options.delete :channel
+      end
+      
+      if options[:asset_id]
+        options[:meta] ||= {}
+        options[:meta].merge! :'meta:assetId=' => options[:asset_id].gsub('-','%2d')
+        options.delete :asset_id
       end
       
       return options

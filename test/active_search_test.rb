@@ -28,6 +28,13 @@ class ActiveSearchTest < Test::Unit::TestCase
   end
   
   
+  def test_can_search_with_asset_id
+    asset_id = 'a203ac95-426b-465e-b326-bf2bafe6fe47'
+    results = ActiveSearch.find :type => nil, :asset_id => asset_id
+    assert_equal asset_id, results.first.asset_id.downcase
+  end
+  
+  
   def test_can_search_with_pages
     first_page = ActiveSearch.find
     second_page = ActiveSearch.find :page => 2
