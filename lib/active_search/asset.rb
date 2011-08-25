@@ -19,7 +19,8 @@ module ActiveSearch
                   :channels     => nil,
                   :media_types  => nil,
                   :image        => nil,
-                  :byline       => nil }
+                  :byline       => nil,
+                  :tags         => [] }
     
     def initialize(data)
       @raw = data
@@ -44,7 +45,8 @@ module ActiveSearch
                       :channels     => [@raw['meta']['channel']].flatten,
                       :media_types  => [@raw['meta']['splitMediaType']].flatten,
                       :image        => @raw['meta']['image2'],
-                      :byline       => @raw['meta']['byline'])
+                      :byline       => @raw['meta']['byline'],
+                      :tags         => [@raw['meta']['tag']].flatten)
       end
       
     end

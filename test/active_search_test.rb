@@ -141,4 +141,8 @@ class ActiveSearchTest < Test::Unit::TestCase
     assert_nil result_with_byline
   end
   
+  def test_result_returns_tags
+    results = ActiveSearch.find
+    assert results.first.tags.any?
+  end
 end
