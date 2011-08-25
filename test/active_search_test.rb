@@ -22,6 +22,12 @@ class ActiveSearchTest < Test::Unit::TestCase
   end
   
   
+  def test_can_search_with_type
+    results = ActiveSearch.find :type => 'articles'
+    assert results.any?
+  end
+  
+  
   def test_can_search_with_pages
     first_page = ActiveSearch.find
     second_page = ActiveSearch.find :page => 2
@@ -101,5 +107,17 @@ class ActiveSearchTest < Test::Unit::TestCase
   end
   
   
+  def test_result_with_image_returns_image
+    results = ActiveSearch.find :type => 'articles'
+    result_with_image = results.find { |r| r.image }
+    assert result_with_image
+  end
+  
+  
+  def test_result_without_image_returns_nil
+    results = ActiveSearch.find
+    result_with_image = results.find { |r| r.image }
+    assert_nil result_with_image
+  end
   
 end

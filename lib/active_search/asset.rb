@@ -17,7 +17,8 @@ module ActiveSearch
                   :end_date     => nil,
                   :asset_id     => nil,
                   :channels     => nil,
-                  :media_types  => nil }
+                  :media_types  => nil,
+                  :image        => nil }
     
     def initialize(data)
       @raw = data
@@ -40,7 +41,8 @@ module ActiveSearch
                       :asset_id     => scrub_asset_id(@raw['meta']['assetId']),
                       :title        => scrub_title(@raw['meta']['assetName']),      # if the asset has an actual assetName, use that as the :title
                       :channels     => [@raw['meta']['channel']].flatten,
-                      :media_types  => [@raw['meta']['splitMediaType']].flatten)
+                      :media_types  => [@raw['meta']['splitMediaType']].flatten,
+                      :image        => @raw['meta']['image2'])
       end
       
     end
@@ -55,9 +57,9 @@ module ActiveSearch
     end
     
     
-    def to_s
-      @raw.inspect
-    end
+    #def to_s
+    #  @raw.inspect
+    #end
     
     
     # some replacements specific to the title of an event
