@@ -23,7 +23,7 @@ module ActiveSearch
       begin
         response = HTTParty.get(search_url)
         if response.code == 200
-          return JSON.parse(response)['_results'].collect { |e| ActiveSearch::Asset.new(e) }
+          return JSON.parse(response.body)['_results'].collect { |e| ActiveSearch::Asset.new(e) }
         else
           if throw_errors
             raise ActiveSearch::SearchError, response.body.match(/<h1>(.*?)<\/h1>/)[1]
