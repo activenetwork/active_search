@@ -100,7 +100,8 @@ module ActiveSearch
       
       if options[:channel]
         options[:meta] ||= {}
-        options[:meta].merge! :'meta:channel=' => options[:channel]
+        channel_meta = options[:channel].is_a?(Array) ? options[:channel].join(' OR meta:channel=') : options[:channel]
+        options[:meta].merge! :' meta:channel=' => channel_meta
         options.delete :channel
       end
       
