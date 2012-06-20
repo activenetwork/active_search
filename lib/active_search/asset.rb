@@ -24,7 +24,7 @@ module ActiveSearch
     
     def initialize(data)
       @raw = data
-      @ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+      # @ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
       
       @data = DEFAULTS.merge( :url     => @raw['url'],
                               :title   => scrub_title(@raw['title']))
@@ -68,13 +68,15 @@ module ActiveSearch
     
     # some replacements specific to the title of an event
     def scrub_title(text)
-      return @ic.iconv(text.is_a?(Array) ? text.first : text).split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'").gsub(/\?/,'')
+      text = text.is_a?(Array) ? text.first : text
+      text = text.chars.select{|i| i.valid_encoding?}.join.split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'").gsub(/\?/,'') if text.present?
+      return text
     end
     private :scrub_title
     
     
     def scrub_summary(text)
-      return @ic.iconv(text).gsub(/&#39;/, "'").gsub(/&amp;/,'&').gsub(/<.*?>/,'').gsub('...','').gsub('?',"'").strip
+      return text.chars.select{|i| i.valid_encoding?}.join.gsub(/&#39;/, "'").gsub(/&amp;/,'&').gsub(/<.*?>/,'').gsub('...','').gsub('?',"'").strip if text.present?
     end
     private :scrub_summary
     
