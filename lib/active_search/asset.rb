@@ -28,7 +28,7 @@ module ActiveSearch
       
       @data = DEFAULTS.merge( :url     => @raw['url'],
                               :title   => scrub_title(@raw['title']))
-                      
+            
       if @raw['meta']
         @data.merge!( :address      => @raw['meta']['address'],
                       :city         => @raw['meta']['city'],
@@ -69,14 +69,15 @@ module ActiveSearch
     # some replacements specific to the title of an event
     def scrub_title(text)
       text = text.is_a?(Array) ? text.first : text
-      text = text.chars.select{|i| i.valid_encoding?}.join.split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'").gsub(/\?/,'') if text.present?
+      text = text.chars.select{|i| i.valid_encoding?}.join.split('|').first.gsub(/&amp;/, '&').gsub(/<.*?>/,'').gsub(/&#39;/, "'").gsub(/\?/,'') if (text and text.size > 0)
       return text
     end
     private :scrub_title
     
     
     def scrub_summary(text)
-      return text.chars.select{|i| i.valid_encoding?}.join.gsub(/&#39;/, "'").gsub(/&amp;/,'&').gsub(/<.*?>/,'').gsub('...','').gsub('?',"'").strip if text.present?
+      text = text.chars.select{|i| i.valid_encoding?}.join.gsub(/&#39;/, "'").gsub(/&amp;/,'&').gsub(/<.*?>/,'').gsub('...','').gsub('?',"'").strip if (text and text.size > 0)
+      return text
     end
     private :scrub_summary
     

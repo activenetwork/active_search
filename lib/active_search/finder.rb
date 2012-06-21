@@ -19,7 +19,7 @@ module ActiveSearch
       
       options = DEFAULT_OPTIONS.merge(extract_options(args))
       search_url = build_search_url(options)
-
+      
       begin
         response = HTTParty.get(search_url)
         if response.code == 200
